@@ -13,7 +13,6 @@ module.exports.getUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
-  console.log(req);
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar })
