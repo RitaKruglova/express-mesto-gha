@@ -1,27 +1,24 @@
 const User = require('../models/user');
+const { handleThen, handleCatch } = require('../config/handlingErrors');
 
 module.exports.getAllUsers = (req, res) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
-    .catch((error) => res.status(500).send({ error }));
+    .then((users) => handleThen(users, res))
+    .catch((error) => handleCatch(error, res));
 };
 
 module.exports.getUser = (req, res) => {
   User.findById(req.params.userId)
-    .then((user) => res.send({ data: user }))
-    .catch((error) => res.status(500).send({ error }));
+    .then((user) => handleThen(user, res))
+    .catch((error) => handleCatch(error, res));
 };
 
 module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar })
-    .then((user) => {
-      res.send({ data: user });
-    })
-    .catch((error) => {
-      res.status(500).send({ error });
-    });
+    .then((user) => handleThen(user, res))
+    .catch((error) => handleCatch(error, res));
 };
 
 module.exports.changeUserInfo = (req, res) => {
@@ -32,12 +29,8 @@ module.exports.changeUserInfo = (req, res) => {
     runValidators: true,
     upsert: false,
   })
-    .then((user) => {
-      res.send({ data: user });
-    })
-    .catch((error) => {
-      res.status(500).send({ error });
-    });
+    .then((user) => handleThen(user, res))
+    .catch((error) => handleCatch(error, res));
 };
 
 module.exports.changeAvatar = (req, res) => {
@@ -48,10 +41,6 @@ module.exports.changeAvatar = (req, res) => {
     runValidators: true,
     upsert: false,
   })
-    .then((user) => {
-      res.send({ data: user });
-    })
-    .catch((error) => {
-      res.status(500).send({ error });
-    });
+    .then((user) => handleThen(user, res))
+    .catch((error) => handleCatch(error, res));
 };
