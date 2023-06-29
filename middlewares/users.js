@@ -10,3 +10,12 @@ module.exports.doesUserExist = (req, res, next) => {
       next();
     });
 };
+
+module.exports.putUser = (req, res, next) => {
+  console.log('set user');
+  req.user = {
+    _id: '649d764cbd4837b4ec55342c',
+  };
+
+  next();
+};
