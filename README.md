@@ -1,16 +1,17 @@
-[![Tests](../../actions/workflows/tests-13-sprint.yml/badge.svg)](../../actions/workflows/tests-13-sprint.yml) [![Tests](../../actions/workflows/tests-14-sprint.yml/badge.svg)](../../actions/workflows/tests-14-sprint.yml)
-# Проект Mesto фронтенд + бэкенд
-
-
-## Директории
-
-`/routes` — папка с файлами роутера  
-`/controllers` — папка с файлами контроллеров пользователя и карточки   
-`/models` — папка с файлами описания схем пользователя и карточки  
-  
-Остальные директории вспомогательные, создаются при необходимости разработчиком
-
-## Запуск проекта
-
-`npm run start` — запускает сервер   
-`npm run dev` — запускает сервер с hot-reload
+# express-mesto-gha
+Одностраничное приложение, написанное на React.
+## Стек
+JavaScript, VSCode, node.js, mongodb, mongoose, express
+## Функционал
+1. Обрабатывать запросы на создание пользователей и карточек.
+2. Обрабатывать запросы на изменение информации о пользователе.
+3. Обрабатывать запросы на постановку и удаление лайков.
+4. Обрабатывать запросы на удаление карточек.
+## Как запустить проект?
+1. Скопировать репозиторий:
+```bash
+git@github.com:RitaKruglova/express-mesto-gha.git
+```
+2. Ввести в терминале npm run start
+## Ссылка на репозиторий проекта
+https://github.com/RitaKruglova/express-mesto-gha
