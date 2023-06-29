@@ -23,3 +23,27 @@ module.exports.createCard = (req, res) => {
     })
     .catch((error) => res.status(500).send({ error }));
 };
+
+module.exports.putLike = (req, res) => {
+  Card.findByIdAndUpdate(req.params.cardId, {
+    $addToSet: {
+      likes: req.user._id,
+    },
+  }, {
+    new: true,
+  })
+    .then((card) => res.send({ data: card }))
+    .catch((error) => res.status(500).send({ error }));
+};
+
+module.exports.deleteLike = (req, res) => {
+  Card.findByIdAndUpdate(req.params.cardId, {
+    $pull: {
+      likes: req.user._id,
+    },
+  }, {
+    new: true,
+  })
+    .then((card) => res.send({ data: card }))
+    .catch((error) => res.status(500).send({ error }));
+};
