@@ -20,7 +20,38 @@ module.exports.createUser = (req, res) => {
       res.send({ data: user });
     })
     .catch((error) => {
-      console.log(error);
+      res.status(500).send({ error });
+    });
+};
+
+module.exports.changeUserInfo = (req, res) => {
+  const { name, about } = req.body;
+
+  User.findByIdAndUpdate(req.user._id, { name, about }, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  })
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((error) => {
+      res.status(500).send({ error });
+    });
+};
+
+module.exports.changeAvatar = (req, res) => {
+  const { avatar } = req.body;
+
+  User.findByIdAndUpdate(req.user._id, { avatar }, {
+    new: true,
+    runValidators: true,
+    upsert: false,
+  })
+    .then((user) => {
+      res.send({ data: user });
+    })
+    .catch((error) => {
       res.status(500).send({ error });
     });
 };
