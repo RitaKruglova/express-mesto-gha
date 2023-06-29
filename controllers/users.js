@@ -13,11 +13,15 @@ module.exports.getUser = (req, res) => {
 };
 
 module.exports.createUser = (req, res) => {
+  console.log(req);
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar })
     .then((user) => {
       res.send({ data: user });
     })
-    .catch((error) => res.status(500).send({ error }));
+    .catch((error) => {
+      console.log(error);
+      res.status(500).send({ error });
+    });
 };
