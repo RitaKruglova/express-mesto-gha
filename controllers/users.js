@@ -5,3 +5,9 @@ module.exports.getAllUsers = (req, res) => {
     .then((users) => res.send({ data: users }))
     .catch((error) => res.status(500).send({ error }));
 };
+
+module.exports.getUser = (req, res) => {
+  User.findById(req.params.userId)
+    .then((user) => res.send({ data: user }))
+    .catch((error) => res.status(500).send({ error }));
+};
