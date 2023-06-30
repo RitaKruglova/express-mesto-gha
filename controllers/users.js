@@ -1,5 +1,5 @@
 const User = require('../models/user');
-const { handleThen, handleCatch } = require('../config/handlingErrors');
+const { handleThen, handleCatch } = require('../helpers/handlingErrors');
 
 module.exports.getAllUsers = (req, res) => {
   User.find({})

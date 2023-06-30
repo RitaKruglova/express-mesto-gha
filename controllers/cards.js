@@ -1,4 +1,4 @@
-const { handleThen, handleCatch } = require('../config/handlingErrors');
+const { handleThen, handleCatch } = require('../helpers/handlingErrors');
 const Card = require('../models/card');
 
 module.exports.getAllCards = (req, res) => {
