@@ -1,9 +1,9 @@
 const User = require('../models/user');
 
 module.exports.doesUserExist = (req, res, next) => {
-  User.find({})
-    .then((users) => {
-      if (!users[req.params.userId]) {
+  User.findById(req.params.userId)
+    .then((user) => {
+      if (user === null) {
         res.send('Такого пользователя не существует');
         return;
       }
