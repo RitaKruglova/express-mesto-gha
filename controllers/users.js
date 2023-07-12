@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const { handleThen, handleCatch } = require('../helpers/handlingErrors');
 
@@ -62,6 +63,11 @@ module.exports.login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
+      const token = jwt.sign({ _id: user._id });
+      res.cookie('jwt', token, {
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        httpOnly: true,
+      }).end();
       res.send(user);
     })
     .catch((error) => handleCatch(error, res));
