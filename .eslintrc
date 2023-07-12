@@ -26,6 +26,10 @@
             "always"
         ],
         "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+        "max-classes-per-file": [
+          "error",
+          { "ignoreExpressions": true, "max": 4 }
+        ],
         "import/no-extraneous-dependencies": "off"
     }
 }

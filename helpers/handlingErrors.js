@@ -1,8 +1,13 @@
 const mongoose = require('mongoose');
+const errors = require('./errors');
 
 module.exports.handleCatch = (err, res) => {
+  let verifiedError = err;
   if (err instanceof mongoose.Error.ValidationError) {
-    res.status(400).send({ messege: 'Переданы некорректные данные' });
+    verifiedError = errors.ValidationError(err.message);
+  }
+  if (verifiedError.statusCode) {
+    res.status(verifiedError.statusCode).send({ messege: verifiedError.message });
   } else {
     res.status(500).send({ messege: 'Что-то пошло не так...(' });
   }

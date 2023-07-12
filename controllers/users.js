@@ -56,3 +56,13 @@ module.exports.changeAvatar = (req, res) => {
     .then((user) => handleThen(user, res))
     .catch((error) => handleCatch(error, res));
 };
+
+module.exports.login = (req, res) => {
+  const { email, password } = req.body;
+
+  return User.findUserByCredentials(email, password)
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((error) => handleCatch(error, res));
+};
