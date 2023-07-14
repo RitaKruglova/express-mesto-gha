@@ -1,3 +1,4 @@
+require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -63,12 +64,25 @@ module.exports.login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const token = jwt.sign({ _id: user._id });
-      res.cookie('jwt', token, {
+      const { JWT } = process.env;
+
+      const token = jwt.sign(
+        { _id: user._id },
+        JWT,
+        { expiresIn: '7d' },
+      );
+      res.cookie('token', token, {
         maxAge: 1000 * 60 * 60 * 24 * 7,
         httpOnly: true,
-      }).end();
+        sameSite: true,
+      });
       res.send(user);
     })
+    .catch((error) => handleCatch(error, res));
+};
+
+module.exports.getCurrentUser = (req, res) => {
+  User.findById(req.user._id)
+    .then((user) => handleThen(user, res))
     .catch((error) => handleCatch(error, res));
 };

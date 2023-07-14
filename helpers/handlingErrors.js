@@ -4,7 +4,7 @@ const errors = require('./errors');
 module.exports.handleCatch = (err, res) => {
   let verifiedError = err;
   if (err instanceof mongoose.Error.ValidationError) {
-    verifiedError = errors.ValidationError(err.message);
+    verifiedError = new errors.ValidationError(err.message);
   }
   if (verifiedError.statusCode) {
     res.status(verifiedError.statusCode).send({ messege: verifiedError.message });

@@ -1,5 +1,6 @@
 const { handleThen, handleCatch } = require('../helpers/handlingErrors');
 const Card = require('../models/card');
+const errors = require('../helpers/errors');
 
 module.exports.getAllCards = (req, res) => {
   Card.find({})
@@ -8,8 +9,17 @@ module.exports.getAllCards = (req, res) => {
 };
 
 module.exports.deleteCard = (req, res) => {
-  Card.findByIdAndRemove(req.params.CardId)
-    .then((card) => handleThen(card, res))
+  Card.findById(req.params.cardId)
+    .then((card) => {
+      console.log(card.owner._id.toString());
+      if (req.user._id !== card.owner._id.toString()) {
+        Promise.reject(new errors.ForbiddenError('Вы не можете удалить чужую карточку'));
+      }
+
+      Card.findByIdAndRemove(req.params.cardId)
+        .then(() => handleThen(card, res))
+        .catch((error) => handleCatch(error, res));
+    })
     .catch((error) => handleCatch(error, res));
 };
 
