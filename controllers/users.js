@@ -2,21 +2,21 @@ require('dotenv').config();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
-const { handleThen, handleCatch } = require('../helpers/handlingErrors');
+const { handleThen } = require('../helpers/handlingErrors');
 
-module.exports.getAllUsers = (req, res) => {
+module.exports.getAllUsers = (req, res, next) => {
   User.find({})
     .then((users) => handleThen(users, res))
-    .catch((error) => handleCatch(error, res));
+    .catch(next);
 };
 
-module.exports.getUser = (req, res) => {
+module.exports.getUser = (req, res, next) => {
   User.findById(req.params.userId)
     .then((user) => handleThen(user, res))
-    .catch((error) => handleCatch(error, res));
+    .catch(next);
 };
 
-module.exports.createUser = (req, res) => {
+module.exports.createUser = (req, res, next) => {
   const {
     name, about, avatar, email, password,
   } = req.body;
@@ -31,11 +31,11 @@ module.exports.createUser = (req, res) => {
         password: hash,
       })
         .then((user) => handleThen(user, res))
-        .catch((error) => handleCatch(error, res));
+        .catch(next);
     });
 };
 
-module.exports.changeUserInfo = (req, res) => {
+module.exports.changeUserInfo = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, {
@@ -44,10 +44,10 @@ module.exports.changeUserInfo = (req, res) => {
     upsert: false,
   })
     .then((user) => handleThen(user, res))
-    .catch((error) => handleCatch(error, res));
+    .catch(next);
 };
 
-module.exports.changeAvatar = (req, res) => {
+module.exports.changeAvatar = (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, {
@@ -56,10 +56,10 @@ module.exports.changeAvatar = (req, res) => {
     upsert: false,
   })
     .then((user) => handleThen(user, res))
-    .catch((error) => handleCatch(error, res));
+    .catch(next);
 };
 
-module.exports.login = (req, res) => {
+module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
 
   return User.findUserByCredentials(email, password)
@@ -78,11 +78,11 @@ module.exports.login = (req, res) => {
       });
       res.send(user);
     })
-    .catch((error) => handleCatch(error, res));
+    .catch(next);
 };
 
-module.exports.getCurrentUser = (req, res) => {
+module.exports.getCurrentUser = (req, res, next) => {
   User.findById(req.user._id)
     .then((user) => handleThen(user, res))
-    .catch((error) => handleCatch(error, res));
+    .catch(next);
 };

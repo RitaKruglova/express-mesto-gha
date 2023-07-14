@@ -28,8 +28,9 @@
         "no-underscore-dangle": ["error", { "allow": ["_id"] }],
         "max-classes-per-file": [
           "error",
-          { "ignoreExpressions": true, "max": 4 }
+          { "ignoreExpressions": true, "max": 6 }
         ],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "no-unused-vars": ["error", { "args": "none" }]
     }
 }
