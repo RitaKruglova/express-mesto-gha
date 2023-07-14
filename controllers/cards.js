@@ -11,12 +11,15 @@ module.exports.getAllCards = (req, res) => {
 module.exports.deleteCard = (req, res) => {
   Card.findById(req.params.cardId)
     .then((card) => {
+      if (!card) {
+        return Promise.reject(new errors.BadRequestError('Карточка не найдена'));
+      }
       console.log(card.owner._id.toString());
       if (req.user._id !== card.owner._id.toString()) {
-        Promise.reject(new errors.ForbiddenError('Вы не можете удалить чужую карточку'));
+        return Promise.reject(new errors.ForbiddenError('Вы не можете удалить чужую карточку'));
       }
 
-      Card.findByIdAndRemove(req.params.cardId)
+      return Card.findByIdAndRemove(req.params.cardId)
         .then(() => handleThen(card, res))
         .catch((error) => handleCatch(error, res));
     })

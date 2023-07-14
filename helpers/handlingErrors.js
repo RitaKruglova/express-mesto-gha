@@ -3,6 +3,7 @@ const errors = require('./errors');
 
 module.exports.handleCatch = (err, res) => {
   let verifiedError = err;
+  console.log(err);
   if (err instanceof mongoose.Error.ValidationError) {
     verifiedError = new errors.ValidationError(err.message);
   }

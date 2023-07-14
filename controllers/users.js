@@ -64,11 +64,11 @@ module.exports.login = (req, res) => {
 
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      const { JWT } = process.env;
+      const { SECRET_KEY } = process.env;
 
       const token = jwt.sign(
         { _id: user._id },
-        JWT,
+        SECRET_KEY,
         { expiresIn: '7d' },
       );
       res.cookie('token', token, {
