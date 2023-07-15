@@ -1,6 +1,6 @@
 const { handleThen } = require('../helpers/handlingErrors');
 const Card = require('../models/card');
-const errors = require('../helpers/errors');
+const errorClasses = require('../helpers/errorClasses');
 
 module.exports.getAllCards = (req, res, next) => {
   Card.find({})
@@ -12,10 +12,10 @@ module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((card) => {
       if (!card) {
-        throw new errors.BadRequestError('Карточка не найдена');
+        throw new errorClasses.BadRequestError('Карточка не найдена');
       }
       if (req.user._id !== card.owner._id.toString()) {
-        throw new errors.ForbiddenError('Вы не можете удалить чужую карточку');
+        throw new errorClasses.ForbiddenError('Вы не можете удалить чужую карточку');
       }
 
       Card.deleteOne(card)

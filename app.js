@@ -10,6 +10,7 @@ const cardRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 const { handleCatch } = require('./middlewares/handlingError');
+const errorClasses = require('./helpers/errorClasses');
 
 const { PORT = 3000, DB_URL } = process.env;
 
@@ -37,9 +38,12 @@ app.post('/signup', createUser);
 app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+app.use('*', (req, res, next) => {
+  next(new errorClasses.NotFoundError('Маршрут не найден'));
+});
 app.use(errors());
 app.use(handleCatch);
 
 app.listen(PORT, () => {
-  console.log(('649d764cbd4837b4ec55342c').length);
+  console.log('test');
 });

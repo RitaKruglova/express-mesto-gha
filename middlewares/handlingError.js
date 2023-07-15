@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
-const errors = require('../helpers/errors');
+const errorClasses = require('../helpers/errorClasses');
 
 module.exports.handleCatch = (err, req, res, next) => {
   let verifiedError = err;
   console.log('err', err);
   if (err.code === 11000) {
-    verifiedError = new errors.ConflictError('Пользователь с таким email уже существует');
+    verifiedError = new errorClasses.ConflictError('Пользователь с таким email уже существует');
   }
   if (err instanceof mongoose.Error.ValidationError) {
-    verifiedError = new errors.ValidationError(err.message);
+    verifiedError = new errorClasses.ValidationError(err.message);
   }
   if (verifiedError.statusCode) {
     res.status(verifiedError.statusCode).send({ messege: verifiedError.message });

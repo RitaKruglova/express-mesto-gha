@@ -33,10 +33,18 @@ class ConflictError extends Error {
   }
 }
 
+class NotFoundError extends Error {
+  constructor(message) {
+    super(message);
+    this.statusCode = 404;
+  }
+}
+
 module.exports = {
   UnauthorizedError,
   ValidationError,
   ForbiddenError,
   BadRequestError,
   ConflictError,
+  NotFoundError,
 };
