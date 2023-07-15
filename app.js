@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
+const { errors } = require('celebrate');
 const userRouter = require('./routes/users');
 const cardRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
@@ -24,8 +25,9 @@ app.post('/signup', createUser);
 app.use(auth);
 app.use('/users', userRouter);
 app.use('/cards', cardRouter);
+app.use(errors());
 app.use(handleCatch);
 
 app.listen(PORT, () => {
-  console.log('test');
+  console.log(('649d764cbd4837b4ec55342c').length);
 });
