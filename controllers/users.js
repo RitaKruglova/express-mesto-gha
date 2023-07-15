@@ -30,7 +30,7 @@ module.exports.createUser = (req, res, next) => {
         email,
         password: hash,
       })
-        .then((user) => handleThen(user, res))
+        .then((user) => handleThen(user, res, 201))
         .catch(next);
     });
 };

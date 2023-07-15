@@ -28,7 +28,7 @@ module.exports.deleteCard = (req, res, next) => {
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => handleThen(card, res))
+    .then((card) => handleThen(card, res, 201))
     .catch(next);
 };
 
