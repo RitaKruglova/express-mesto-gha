@@ -1,14 +1,13 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const errors = require('../helpers/errors');
 
 module.exports = (req, res, next) => {
   const { token } = req.cookies;
   const { SECRET_KEY } = process.env;
 
   if (!token) {
-    return res
-      .status(401)
-      .send({ message: 'Необходима авторизация' });
+    next(new errors.UnauthorizedError('Необходима авторизация'));
   }
 
   let payload;
@@ -16,12 +15,10 @@ module.exports = (req, res, next) => {
   try {
     payload = jwt.verify(token, SECRET_KEY);
   } catch {
-    return res
-      .status(401)
-      .send({ message: 'Необходима авторизация' });
+    next(new errors.UnauthorizedError('Необходима авторизация'));
   }
 
   req.user = payload;
 
-  return next();
+  next();
 };
