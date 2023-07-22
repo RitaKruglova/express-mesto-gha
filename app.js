@@ -11,6 +11,7 @@ const auth = require('./middlewares/auth');
 const { createUser, login } = require('./controllers/users');
 const { handleCatch } = require('./middlewares/handlingError');
 const errorClasses = require('./helpers/errorClasses');
+const { checkDomain } = require('./middlewares/cors');
 
 const { PORT = 3000, DB_URL } = process.env;
 
@@ -32,7 +33,7 @@ const limiter = rateLimit({
 });
 
 app.use(limiter);
-
+app.use(checkDomain);
 app.post('/signin', login);
 app.post('/signup', createUser);
 app.use(auth);
