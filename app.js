@@ -12,6 +12,7 @@ const { createUser, login } = require('./controllers/users');
 const { handleCatch } = require('./middlewares/handlingError');
 const errorClasses = require('./helpers/errorClasses');
 const { checkDomain } = require('./middlewares/cors');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const { PORT = 3000, DB_URL } = process.env;
 
@@ -32,6 +33,7 @@ const limiter = rateLimit({
   legacyHeaders: false,
 });
 
+app.use(requestLogger);
 app.use(limiter);
 app.use(checkDomain);
 app.post('/signin', login);
@@ -42,6 +44,7 @@ app.use('/cards', cardRouter);
 app.use('*', (req, res, next) => {
   next(new errorClasses.NotFoundError('Маршрут не найден'));
 });
+app.use(errorLogger);
 app.use(errors());
 app.use(handleCatch);
 
